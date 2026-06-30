@@ -1,0 +1,116 @@
+# feature_ranges.yaml — medically-validated ranges for synthetic generation
+#
+# RULE R7 + honesty gate (CLAUDE.md Sec 4): every range here MUST have a citation
+# in SOURCES.md. No magic numbers. A marker must be able to trace each threshold
+# to a clinical guideline or peer-reviewed source.
+#
+# Each feature defines distributions for the NEGATIVE (no-CVD) and POSITIVE (CVD)
+# classes. The generator samples per-class, then applies probabilistic
+# correlations from config.yaml. This is what makes the data clinically credible
+# rather than random noise.
+#
+# Units are stated explicitly. "ref" points to a key in SOURCES.md.
+
+demographics:
+  age:
+    unit: years
+    negative: {dist: normal, mean: 45, sd: 12, min: 18, max: 90}
+    positive: {dist: normal, mean: 61, sd: 11, min: 30, max: 90}
+    ref: WHO2023
+  sex:
+    unit: category
+    values: [female, male]
+    negative_probs: [0.52, 0.48]
+    positive_probs: [0.42, 0.58]   # higher male CVD incidence
+    ref: GBD2020
+
+vitals:
+  systolic_bp:
+    unit: mmHg
+    negative: {dist: normal, mean: 120, sd: 12, min: 90, max: 180}
+    positive: {dist: normal, mean: 145, sd: 18, min: 100, max: 220}
+    ref: ESC2018_HTN
+  diastolic_bp:
+    unit: mmHg
+    negative: {dist: normal, mean: 78, sd: 8, min: 55, max: 110}
+    positive: {dist: normal, mean: 92, sd: 11, min: 60, max: 130}
+    ref: ESC2018_HTN
+  resting_heart_rate:
+    unit: bpm
+    negative: {dist: normal, mean: 70, sd: 9, min: 45, max: 110}
+    positive: {dist: normal, mean: 80, sd: 12, min: 50, max: 130}
+    ref: AHA2021
+
+biochemical:
+  total_cholesterol:
+    unit: mg/dL
+    negative: {dist: normal, mean: 185, sd: 28, min: 120, max: 300}
+    positive: {dist: normal, mean: 232, sd: 35, min: 140, max: 400}
+    ref: NCEP_ATP3
+  hdl_cholesterol:
+    unit: mg/dL
+    negative: {dist: normal, mean: 55, sd: 12, min: 25, max: 100}
+    positive: {dist: normal, mean: 42, sd: 11, min: 20, max: 90}   # low HDL = risk
+    ref: NCEP_ATP3
+  fasting_glucose:
+    unit: mg/dL
+    negative: {dist: normal, mean: 92, sd: 10, min: 65, max: 140}
+    positive: {dist: normal, mean: 118, sd: 28, min: 70, max: 260}
+    ref: ADA2023
+
+anthropometric:
+  bmi:
+    unit: kg/m2
+    negative: {dist: normal, mean: 25.5, sd: 3.8, min: 16, max: 45}
+    positive: {dist: normal, mean: 30.2, sd: 5.1, min: 18, max: 55}
+    ref: WHO_BMI
+
+lifestyle:
+  smoker:
+    unit: category
+    values: [no, yes]
+    negative_probs: [0.82, 0.18]
+    positive_probs: [0.58, 0.42]
+    ref: GBD2020
+  physical_activity:
+    unit: category   # WHO activity tiers
+    values: [active, moderate, sedentary]
+    negative_probs: [0.45, 0.35, 0.20]
+    positive_probs: [0.20, 0.35, 0.45]
+    ref: WHO_PA2020
+  sleep_hours:
+    unit: hours/night
+    negative: {dist: normal, mean: 7.2, sd: 1.0, min: 3, max: 11}
+    positive: {dist: normal, mean: 6.1, sd: 1.4, min: 2, max: 11}   # poor sleep = risk
+    ref: AHA_Sleep2022
+  alcohol_units_week:
+    unit: units/week
+    negative: {dist: gamma, shape: 2.0, scale: 3.0, min: 0, max: 60}
+    positive: {dist: gamma, shape: 2.5, scale: 4.5, min: 0, max: 80}
+    ref: Lancet_Alcohol2018
+
+ecg_derived:
+  st_depression:
+    unit: mm
+    negative: {dist: gamma, shape: 1.5, scale: 0.4, min: 0, max: 4}
+    positive: {dist: gamma, shape: 2.5, scale: 0.9, min: 0, max: 7}
+    ref: Awasthi2023
+  max_heart_rate_achieved:
+    unit: bpm
+    negative: {dist: normal, mean: 162, sd: 18, min: 90, max: 210}
+    positive: {dist: normal, mean: 138, sd: 22, min: 70, max: 200}
+    ref: AHA2021
+
+clinical_history:
+  family_history_cvd:
+    unit: category
+    values: [no, yes]
+    negative_probs: [0.75, 0.25]
+    positive_probs: [0.50, 0.50]
+    ref: ESC2018_HTN
+  diabetes:
+    unit: category
+    values: [no, yes]
+    negative_probs: [0.90, 0.10]
+    positive_probs: [0.62, 0.38]
+    ref: ADA2023

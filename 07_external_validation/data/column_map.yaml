@@ -1,0 +1,39 @@
+# column_map.yaml — aligns the REAL UCI Heart Disease columns to our synthetic
+# feature schema (Stage 07). Consumed by cvd.external_validate.
+#
+# RULE R8: this is the harmonisation spec only. We never write back to the real
+# CSV and never train on it. RULE R2: all dataset-specific alignment lives here,
+# not hard-coded in external_validate.py.
+#
+# The UCI Cleveland set shares only a subset of our 17 synthetic features. We map
+# every column we honestly can; the validation stage imputes the remaining
+# features from the synthetic training distribution and reports that limitation.
+# A performance drop is EXPECTED and reported, not hidden (CLAUDE.md Sec 4, R1).
+
+# --- column renames: <real UCI column> -> <our feature name> ---
+# Only genuine, defensible correspondences. cp/restecg/exang/slope/ca/thal have
+# no counterpart in our schema and are intentionally dropped.
+columns:
+  age: age                       # years -> years (direct)
+  sex: sex                       # UCI 1=male/0=female (value-mapped below)
+  trestbps: systolic_bp          # resting systolic BP, mmHg
+  chol: total_cholesterol        # serum cholesterol, mg/dL
+  thalach: max_heart_rate_achieved
+  oldpeak: st_depression         # exercise-induced ST depression, mm
+  fbs: diabetes                  # fasting blood sugar >120 mg/dL -> diabetes proxy
+  num: cvd                       # diagnosis (0=none, 1-4=disease; binarised below)
+
+# --- value remaps: harmonise real encodings to our category vocabulary ---
+values:
+  sex:
+    1: male
+    0: female
+  diabetes:                      # fbs is 1 if fasting blood sugar >120 mg/dL
+    1: "yes"
+    0: "no"
+
+# --- target ---
+# UCI 'num' is 0 (no disease) or 1-4 (disease severity). We collapse to binary.
+target:
+  column: cvd
+  positive_when_gt: 0
