@@ -1,0 +1,30 @@
+{
+  "synthetic": true,
+  "note": "SYNTHETIC DATA \u2014 not real patients (rule R7).",
+  "generator_version": "1.0.0",
+  "random_seed": 42,
+  "n_samples": 10000,
+  "positive_prevalence_actual": 0.3448,
+  "n_features": 17,
+  "feature_names": [
+    "age",
+    "sex",
+    "systolic_bp",
+    "diastolic_bp",
+    "resting_heart_rate",
+    "total_cholesterol",
+    "hdl_cholesterol",
+    "fasting_glucose",
+    "bmi",
+    "smoker",
+    "physical_activity",
+    "sleep_hours",
+    "alcohol_units_week",
+    "st_depression",
+    "max_heart_rate_achieved",
+    "family_history_cvd",
+    "diabetes"
+  ],
+  "ranges_source": "01_data_generation/ranges/feature_ranges.yaml + SOURCES.md",
+  "generated_at": "2026-06-30T12:20:23.112377+00:00"
+}
