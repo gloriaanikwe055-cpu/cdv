@@ -1,0 +1,45 @@
+{
+  "status": "DONE",
+  "dataset": "UCI Heart Disease",
+  "real_n_rows": 303,
+  "real_positive_prevalence": 0.45874587458745875,
+  "shared_features": [
+    "age",
+    "sex",
+    "systolic_bp",
+    "total_cholesterol",
+    "st_depression",
+    "max_heart_rate_achieved",
+    "diabetes"
+  ],
+  "imputed_features": [
+    "diastolic_bp",
+    "resting_heart_rate",
+    "hdl_cholesterol",
+    "fasting_glucose",
+    "bmi",
+    "smoker",
+    "physical_activity",
+    "sleep_hours",
+    "alcohol_units_week",
+    "family_history_cvd"
+  ],
+  "imputed_note": "10 of 17 features absent from the real dataset were imputed from the synthetic training distribution (numeric=median, categorical=mode). Documented limitation (R1).",
+  "best_model": "logistic_regression",
+  "synthetic_test": {
+    "accuracy": 0.8745,
+    "precision": 0.8940754039,
+    "recall": 0.7217391304,
+    "f1": 0.7987169206,
+    "roc_auc": 0.8570350703
+  },
+  "real_holdout": {
+    "accuracy": 0.6996699669966997,
+    "precision": 0.6818181818181818,
+    "recall": 0.6474820143884892,
+    "f1": 0.6642066420664207,
+    "roc_auc": 0.7597385506229163
+  },
+  "roc_auc_gap": 0.09729651967708375,
+  "interpretation": "Gap = synthetic minus real ROC-AUC. A positive gap quantifies optimism from training on self-generated data. Discuss in reports/."
+}
