@@ -15,7 +15,13 @@ METRICS = ["accuracy", "precision", "recall", "f1", "roc_auc"]
 
 
 def _fmt(x) -> str:
-    return f"{x:.4f}" if isinstance(x, (int, float)) else str(x)
+    if isinstance(x, bool):
+        return "true" if x else "false"
+    if isinstance(x, int):
+        return str(x)
+    if isinstance(x, float):
+        return str(int(x)) if x.is_integer() else f"{x:.4f}"
+    return str(x)
 
 
 def _load(p: Path):

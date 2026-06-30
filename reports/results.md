@@ -6,10 +6,10 @@
 
 | field | value |
 |---|---|
-| synthetic | 1.0000 |
-| random_seed | 42.0000 |
-| n_samples | 10000.0000 |
-| n_features | 17.0000 |
+| synthetic | true |
+| random_seed | 42 |
+| n_samples | 10000 |
+| n_features | 17 |
 | positive_prevalence_actual | 0.3448 |
 | generator_version | 1.0.0 |
 
