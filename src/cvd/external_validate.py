@@ -35,16 +35,25 @@ from .data import load_dataset, TARGET
 from .metrics import score
 
 
+def _is_num(s: pd.Series) -> bool:
+    # bool is numeric to pandas but is a category to our OneHotEncoder.
+    return pd.api.types.is_numeric_dtype(s) and s.dtype != bool
+
+
 def _impute_stats(synth: pd.DataFrame) -> dict:
-    """Per-feature fill values from the SYNTHETIC training distribution."""
+    """Per-feature fill values + trained dtype from the SYNTHETIC distribution.
+
+    Fills keep their NATIVE type (e.g. a boolean stays boolean) so imputed values
+    match the categories the model's OneHotEncoder was fitted on. Forcing them to
+    str would make the encoder treat them as unknown and silently drop them."""
     feats = synth.drop(columns=[TARGET])
     stats = {}
     for col in feats.columns:
         s = feats[col]
-        if pd.api.types.is_numeric_dtype(s):
-            stats[col] = {"kind": "numeric", "fill": float(s.median())}
+        if _is_num(s):
+            stats[col] = {"kind": "numeric", "fill": float(s.median()), "dtype": s.dtype}
         else:
-            stats[col] = {"kind": "categorical", "fill": str(s.mode().iloc[0])}
+            stats[col] = {"kind": "categorical", "fill": s.mode().iloc[0], "dtype": s.dtype}
     return stats
 
 
@@ -130,18 +139,20 @@ def run() -> dict:
     shared, imputed = [], []
     X = pd.DataFrame(index=X_real.index)
     for col in expected:
+        dtype = stats[col]["dtype"]
         if col in X_real.columns:
             s = X_real[col]
             if stats[col]["kind"] == "numeric":
-                s = pd.to_numeric(s, errors="coerce")
-                if s.isna().any():
-                    s = s.fillna(stats[col]["fill"])
+                s = pd.to_numeric(s, errors="coerce").fillna(stats[col]["fill"])
             else:
-                s = s.where(s.notna(), stats[col]["fill"]).astype(str)
+                # Fill gaps then cast to the trained dtype (e.g. bool) so category
+                # values match what the OneHotEncoder learned — no silent drops.
+                s = s.where(s.notna(), stats[col]["fill"]).astype(dtype)
             X[col] = s
             shared.append(col)
         else:
-            X[col] = stats[col]["fill"]
+            X[col] = pd.Series([stats[col]["fill"]] * len(X_real),
+                               index=X_real.index).astype(dtype)
             imputed.append(col)
 
     pipe = joblib.load(root() / cfg["evaluation"]["output"] / "best_model.pkl")

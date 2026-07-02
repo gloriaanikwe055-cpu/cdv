@@ -25,21 +25,21 @@
     "family_history_cvd"
   ],
   "imputed_note": "10 of 17 features absent from the real dataset were imputed from the synthetic training distribution (numeric=median, categorical=mode). Documented limitation (R1).",
-  "best_model": "logistic_regression",
+  "best_model": "random_forest",
   "synthetic_test": {
-    "accuracy": 0.8745,
-    "precision": 0.8940754039,
-    "recall": 0.7217391304,
-    "f1": 0.7987169206,
-    "roc_auc": 0.8570870672
+    "accuracy": 0.876,
+    "precision": 0.8960573477,
+    "recall": 0.7246376812,
+    "f1": 0.8012820513,
+    "roc_auc": 0.8578858281
   },
   "real_holdout": {
     "accuracy": 0.6996699669966997,
-    "precision": 0.6818181818181818,
-    "recall": 0.6474820143884892,
-    "f1": 0.6642066420664207,
-    "roc_auc": 0.7599140200035094
+    "precision": 0.7222222222222222,
+    "recall": 0.5611510791366906,
+    "f1": 0.631578947368421,
+    "roc_auc": 0.7540357957536409
   },
-  "roc_auc_gap": 0.09717304719649067,
+  "roc_auc_gap": 0.10385003234635914,
   "interpretation": "Gap = synthetic minus real ROC-AUC. A positive gap quantifies optimism from training on self-generated data. Discuss in reports/."
 }

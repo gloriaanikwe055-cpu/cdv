@@ -8,4 +8,5 @@ venv/
 01_data_generation/output/
 0*/output/
 07_external_validation/data/*.csv
+synthetic_cvd_dataset.csv
 .DS_Store

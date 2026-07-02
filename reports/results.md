@@ -17,47 +17,47 @@
 
 | tier | model | accuracy | precision | recall | f1 | roc_auc |
 |---|---|---|---|---|---|---|
-| baseline | logistic_regression | 0.8745 | 0.8941 | 0.7217 | 0.7987 | 0.8571 |
-| advanced | xgboost | 0.8720 | 0.8917 | 0.7159 | 0.7942 | 0.8566 |
-| baseline | naive_bayes | 0.8780 | 0.8805 | 0.7478 | 0.8088 | 0.8564 |
-| advanced | random_forest | 0.8720 | 0.8931 | 0.7145 | 0.7939 | 0.8564 |
+| advanced | random_forest | 0.8760 | 0.8961 | 0.7246 | 0.8013 | 0.8579 |
+| advanced | xgboost | 0.8725 | 0.8905 | 0.7188 | 0.7955 | 0.8570 |
+| baseline | logistic_regression | 0.8770 | 0.8964 | 0.7275 | 0.8032 | 0.8569 |
+| baseline | naive_bayes | 0.8610 | 0.8323 | 0.7478 | 0.7878 | 0.8546 |
 
-**Best model (by roc_auc):** `logistic_regression` (baseline).
+**Best model (by roc_auc):** `random_forest` (advanced).
 
 ## Baseline — stratified 5-fold CV (train)
 
 | model | accuracy | precision | recall | f1 | roc_auc |
 |---|---|---|---|---|---|
-| logistic_regression | 0.8846 | 0.8876 | 0.7618 | 0.8199 | 0.8683 |
-| naive_bayes | 0.8826 | 0.8720 | 0.7730 | 0.8195 | 0.8694 |
+| logistic_regression | 0.8869 | 0.8904 | 0.7661 | 0.8236 | 0.8682 |
+| naive_bayes | 0.8710 | 0.8329 | 0.7828 | 0.8071 | 0.8668 |
 
 ## Advanced — stratified 5-fold CV (train)
 
 | model | accuracy | precision | recall | f1 | roc_auc |
 |---|---|---|---|---|---|
-| random_forest | 0.8791 | 0.8829 | 0.7487 | 0.8103 | 0.8692 |
-| xgboost | 0.8791 | 0.8819 | 0.7498 | 0.8105 | 0.8678 |
+| random_forest | 0.8824 | 0.8864 | 0.7556 | 0.8158 | 0.8692 |
+| xgboost | 0.8800 | 0.8822 | 0.7524 | 0.8121 | 0.8669 |
 
 ## Hyperparameter tuning (advanced models)
 
 | model | scoring | best CV score | best params |
 |---|---|---|---|
 | random_forest | roc_auc | 0.8698 | {'model__max_depth': 10, 'model__max_features': 'sqrt', 'model__min_samples_leaf': 5, 'model__n_estimators': 400} |
-| xgboost | roc_auc | 0.8682 | {'model__learning_rate': 0.03, 'model__max_depth': 3, 'model__n_estimators': 300, 'model__subsample': 0.8} |
+| xgboost | roc_auc | 0.8699 | {'model__learning_rate': 0.03, 'model__max_depth': 5, 'model__n_estimators': 300, 'model__subsample': 0.8} |
 
 ## Synthetic vs Real — external validation (Stage 07)
 
-Real dataset: **UCI Heart Disease**, n=303, positive prevalence=0.4587. Best model: `logistic_regression`.
+Real dataset: **UCI Heart Disease**, n=303, positive prevalence=0.4587. Best model: `random_forest`.
 
 | metric | synthetic test | real hold-out |
 |---|---|---|
-| accuracy | 0.8745 | 0.6997 |
-| precision | 0.8941 | 0.6818 |
-| recall | 0.7217 | 0.6475 |
-| f1 | 0.7987 | 0.6642 |
-| roc_auc | 0.8571 | 0.7599 |
+| accuracy | 0.8760 | 0.6997 |
+| precision | 0.8961 | 0.7222 |
+| recall | 0.7246 | 0.5612 |
+| f1 | 0.8013 | 0.6316 |
+| roc_auc | 0.8579 | 0.7540 |
 
-**ROC-AUC gap (synthetic − real): 0.0972**
+**ROC-AUC gap (synthetic − real): 0.1039**
 
 Shared features (7): age, sex, systolic_bp, total_cholesterol, st_depression, max_heart_rate_achieved, diabetes.
 

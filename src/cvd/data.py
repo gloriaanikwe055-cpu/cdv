@@ -34,8 +34,13 @@ def split(df: pd.DataFrame):
 
 
 def build_preprocessor(X: pd.DataFrame) -> ColumnTransformer:
-    cat = X.select_dtypes(include=["object", "category"]).columns.tolist()
+    # NOTE: several category features (smoker, diabetes, family_history_cvd) arrive
+    # as BOOLEAN dtype because YAML parses `[no, yes]` as `[False, True]`. bool is
+    # excluded by BOTH np.number and object/category selectors, so it MUST be named
+    # explicitly here or those features get silently dropped by the ColumnTransformer.
+    cat = X.select_dtypes(include=["object", "category", "bool"]).columns.tolist()
     num = X.select_dtypes(include=["number"]).columns.tolist()
+    num = [c for c in num if c not in cat]  # np.number never includes bool, but be explicit
     return ColumnTransformer([
         ("num", StandardScaler(), num),
         ("cat", OneHotEncoder(handle_unknown="ignore"), cat),

@@ -25,12 +25,12 @@ columns:
 
 # --- value remaps: harmonise real encodings to our category vocabulary ---
 values:
-  sex:
+  sex:                           # synthetic 'sex' is a string category
     1: male
     0: female
-  diabetes:                      # fbs is 1 if fasting blood sugar >120 mg/dL
-    1: "yes"
-    0: "no"
+  diabetes:                      # fbs is 1 if fasting blood sugar >120 mg/dL;
+    1: true                      # synthetic 'diabetes' is a boolean category
+    0: false
 
 # --- target ---
 # UCI 'num' is 0 (no disease) or 1-4 (disease severity). We collapse to binary.
