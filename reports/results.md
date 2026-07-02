@@ -17,9 +17,9 @@
 
 | tier | model | accuracy | precision | recall | f1 | roc_auc |
 |---|---|---|---|---|---|---|
-| baseline | logistic_regression | 0.8745 | 0.8941 | 0.7217 | 0.7987 | 0.8570 |
-| advanced | xgboost | 0.8720 | 0.8931 | 0.7145 | 0.7939 | 0.8567 |
-| baseline | naive_bayes | 0.8780 | 0.8805 | 0.7478 | 0.8088 | 0.8565 |
+| baseline | logistic_regression | 0.8745 | 0.8941 | 0.7217 | 0.7987 | 0.8571 |
+| advanced | xgboost | 0.8720 | 0.8917 | 0.7159 | 0.7942 | 0.8566 |
+| baseline | naive_bayes | 0.8780 | 0.8805 | 0.7478 | 0.8088 | 0.8564 |
 | advanced | random_forest | 0.8720 | 0.8931 | 0.7145 | 0.7939 | 0.8564 |
 
 **Best model (by roc_auc):** `logistic_regression` (baseline).
@@ -28,22 +28,22 @@
 
 | model | accuracy | precision | recall | f1 | roc_auc |
 |---|---|---|---|---|---|
-| logistic_regression | 0.8845 | 0.8872 | 0.7618 | 0.8197 | 0.8683 |
+| logistic_regression | 0.8846 | 0.8876 | 0.7618 | 0.8199 | 0.8683 |
 | naive_bayes | 0.8826 | 0.8720 | 0.7730 | 0.8195 | 0.8694 |
 
 ## Advanced — stratified 5-fold CV (train)
 
 | model | accuracy | precision | recall | f1 | roc_auc |
 |---|---|---|---|---|---|
-| random_forest | 0.8789 | 0.8828 | 0.7480 | 0.8098 | 0.8692 |
-| xgboost | 0.8788 | 0.8817 | 0.7487 | 0.8098 | 0.8685 |
+| random_forest | 0.8791 | 0.8829 | 0.7487 | 0.8103 | 0.8692 |
+| xgboost | 0.8791 | 0.8819 | 0.7498 | 0.8105 | 0.8678 |
 
 ## Hyperparameter tuning (advanced models)
 
 | model | scoring | best CV score | best params |
 |---|---|---|---|
 | random_forest | roc_auc | 0.8698 | {'model__max_depth': 10, 'model__max_features': 'sqrt', 'model__min_samples_leaf': 5, 'model__n_estimators': 400} |
-| xgboost | roc_auc | 0.8680 | {'model__learning_rate': 0.03, 'model__max_depth': 3, 'model__n_estimators': 300, 'model__subsample': 0.8} |
+| xgboost | roc_auc | 0.8682 | {'model__learning_rate': 0.03, 'model__max_depth': 3, 'model__n_estimators': 300, 'model__subsample': 0.8} |
 
 ## Synthetic vs Real — external validation (Stage 07)
 
@@ -55,9 +55,9 @@ Real dataset: **UCI Heart Disease**, n=303, positive prevalence=0.4587. Best mod
 | precision | 0.8941 | 0.6818 |
 | recall | 0.7217 | 0.6475 |
 | f1 | 0.7987 | 0.6642 |
-| roc_auc | 0.8570 | 0.7597 |
+| roc_auc | 0.8571 | 0.7599 |
 
-**ROC-AUC gap (synthetic − real): 0.0973**
+**ROC-AUC gap (synthetic − real): 0.0972**
 
 Shared features (7): age, sex, systolic_bp, total_cholesterol, st_depression, max_heart_rate_achieved, diabetes.
 

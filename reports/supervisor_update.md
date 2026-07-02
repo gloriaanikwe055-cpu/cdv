@@ -16,13 +16,15 @@
 
 **Reproducibility (R4):** the full pipeline was run twice from seed 42; the dataset, all metrics files, the comparison table, the external-validation result and `results.md` are **byte-for-byte identical** across runs. `pytest` = 3 passed.
 
+**Data quality:** every numeric feature is re-clipped to its cited clinical range after correlation/realism steps, so the dataset contains **0 out-of-range values** (previously 49/10,000 rows had slightly-negative alcohol or ST-depression; now none). Headline numbers were unaffected by the fix.
+
 ## Result 1 — Baseline vs Advanced (held-out synthetic test)
 
 | tier | model | accuracy | precision | recall | f1 | roc_auc |
 |---|---|---|---|---|---|---|
-| baseline | logistic_regression | 0.8745 | 0.8941 | 0.7217 | 0.7987 | **0.8570** |
-| advanced | xgboost (tuned) | 0.8720 | 0.8931 | 0.7145 | 0.7939 | 0.8567 |
-| baseline | naive_bayes | 0.8780 | 0.8805 | 0.7478 | 0.8088 | 0.8565 |
+| baseline | logistic_regression | 0.8745 | 0.8941 | 0.7217 | 0.7987 | **0.8571** |
+| advanced | xgboost (tuned) | 0.8720 | 0.8917 | 0.7159 | 0.7942 | 0.8566 |
+| baseline | naive_bayes | 0.8780 | 0.8805 | 0.7478 | 0.8088 | 0.8564 |
 | advanced | random_forest (tuned) | 0.8720 | 0.8931 | 0.7145 | 0.7939 | 0.8564 |
 
 - Synthetic ROC-AUC sits in the defensible **0.80–0.92** band by design (label noise 0.10, feature overlap 0.50).
@@ -37,9 +39,9 @@
 | precision | 0.8941 | 0.6818 |
 | recall | 0.7217 | 0.6475 |
 | f1 | 0.7987 | 0.6642 |
-| roc_auc | 0.8570 | **0.7597** |
+| roc_auc | 0.8571 | **0.7599** |
 
-- **ROC-AUC gap (synthetic − real) = +0.097.** This is the honesty-gate finding (CLAUDE.md Sec 4), reported not hidden.
+- **ROC-AUC gap (synthetic − real) = +0.0972.** This is the honesty-gate finding (CLAUDE.md Sec 4), reported not hidden.
 - 7 features shared with UCI (age, sex, systolic BP, total cholesterol, ST-depression, max HR, diabetes); 10 features absent from UCI were imputed from the synthetic distribution — a documented limitation carried in `external_metrics.json`.
 
 ## Figures / files to open in the meeting

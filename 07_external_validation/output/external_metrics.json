@@ -31,15 +31,15 @@
     "precision": 0.8940754039,
     "recall": 0.7217391304,
     "f1": 0.7987169206,
-    "roc_auc": 0.8570350703
+    "roc_auc": 0.8570870672
   },
   "real_holdout": {
     "accuracy": 0.6996699669966997,
     "precision": 0.6818181818181818,
     "recall": 0.6474820143884892,
     "f1": 0.6642066420664207,
-    "roc_auc": 0.7597385506229163
+    "roc_auc": 0.7599140200035094
   },
-  "roc_auc_gap": 0.09729651967708375,
+  "roc_auc_gap": 0.09717304719649067,
   "interpretation": "Gap = synthetic minus real ROC-AUC. A positive gap quantifies optimism from training on self-generated data. Discuss in reports/."
 }

@@ -6,16 +6,16 @@
     "test_precision":0.8940754039,
     "test_recall":0.7217391304,
     "test_f1":0.7987169206,
-    "test_roc_auc":0.8570350703
+    "test_roc_auc":0.8570870672
   },
   {
     "tier":"advanced",
     "model":"xgboost",
     "test_accuracy":0.872,
-    "test_precision":0.893115942,
-    "test_recall":0.7144927536,
-    "test_f1":0.7938808374,
-    "test_roc_auc":0.8566976435
+    "test_precision":0.8916967509,
+    "test_recall":0.715942029,
+    "test_f1":0.7942122186,
+    "test_roc_auc":0.8566213077
   },
   {
     "tier":"baseline",
@@ -24,7 +24,7 @@
     "test_precision":0.8805460751,
     "test_recall":0.747826087,
     "test_f1":0.8087774295,
-    "test_roc_auc":0.8564940812
+    "test_roc_auc":0.8564420843
   },
   {
     "tier":"advanced",
@@ -33,6 +33,6 @@
     "test_precision":0.893115942,
     "test_recall":0.7144927536,
     "test_f1":0.7938808374,
-    "test_roc_auc":0.8564431906
+    "test_roc_auc":0.8564420843
   }
 ]

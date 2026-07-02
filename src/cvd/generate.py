@@ -69,6 +69,26 @@ def _apply_correlations(df: pd.DataFrame, corr: dict, rng: np.random.Generator) 
     return df
 
 
+def _clip_to_ranges(df: pd.DataFrame, ranges: dict) -> pd.DataFrame:
+    """Re-apply the cited clinical bounds after correlations + realism injection.
+
+    Those two steps add/shift values and can push a small fraction of samples
+    past their sampled floor/ceiling (e.g. negative alcohol units). Clipping each
+    numeric feature back to the union of its per-class [min, max] guarantees every
+    value stays inside a range cited in SOURCES.md — no impossible values, and the
+    ranges file remains the single source of truth (R2/R7)."""
+    for _group, feats in ranges.items():
+        for fname, spec in feats.items():
+            if spec["unit"] == "category" or fname not in df.columns:
+                continue
+            lo = min(spec["negative"].get("min", -np.inf),
+                     spec["positive"].get("min", -np.inf))
+            hi = max(spec["negative"].get("max", np.inf),
+                     spec["positive"].get("max", np.inf))
+            df[fname] = df[fname].clip(lo, hi)
+    return df
+
+
 def _inject_realism(df: pd.DataFrame, dg: dict, rng: np.random.Generator) -> pd.DataFrame:
     """Make synthetic data clinically believable, not perfectly separable.
 
@@ -114,6 +134,7 @@ def generate() -> Path:
     df = df.sample(frac=1.0, random_state=seed()).reset_index(drop=True)
     df = _apply_correlations(df, dg["correlations"], rng)
     df = _inject_realism(df, dg, rng)
+    df = _clip_to_ranges(df, ranges)  # no value escapes its cited clinical range
 
     out = root() / dg["output"]
     out.parent.mkdir(parents=True, exist_ok=True)
