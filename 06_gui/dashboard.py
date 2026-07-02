@@ -32,7 +32,13 @@ st.set_page_config(page_title="CVD Synthetic Data Explorer", page_icon="🫀",
 
 @st.cache_data
 def load_data() -> pd.DataFrame:
-    df = pd.read_parquet(ROOT / cfg["data_generation"]["output"])
+    parquet = ROOT / cfg["data_generation"]["output"]
+    if not parquet.exists():
+        # Self-heal on a fresh host: the dataset is deterministic (seed 42), so
+        # regenerating it is safe and fast (~1s) and yields the identical rows.
+        from cvd.generate import generate
+        generate()
+    df = pd.read_parquet(parquet)
     df["label"] = df["cvd"].map({0: "no-CVD", 1: "CVD"})
     return df
 
